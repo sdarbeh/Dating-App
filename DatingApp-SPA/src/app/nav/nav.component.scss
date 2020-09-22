@@ -1,0 +1,9 @@
+.navbar {
+  .dropdown-toggle,
+  .logout {
+    cursor: pointer;
+  }
+  .dropdown-toggle:hover {
+    text-decoration: none;
+  }
+}
