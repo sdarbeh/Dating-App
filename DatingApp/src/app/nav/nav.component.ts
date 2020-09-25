@@ -17,11 +17,9 @@ export class NavComponent implements OnInit {
     private router: Router
   ) {}
 
-  // tslint:disable-next-line: typedef
-  ngOnInit() {}
+  ngOnInit(): void {}
 
-  // tslint:disable-next-line: typedef
-  login() {
+  login(): void {
     this.authService.login(this.model).subscribe(
       (next) => {
         this.alertify.success('Logged in successfull');
@@ -37,13 +35,11 @@ export class NavComponent implements OnInit {
     );
   }
 
-  // tslint:disable-next-line: typedef
-  loggedIn() {
+  loggedIn(): boolean {
     return this.authService.loggedIn();
   }
 
-  // tslint:disable-next-line: typedef
-  logout() {
+  logout(): void {
     localStorage.removeItem('token');
     this.alertify.message('Logged out');
     this.router.navigate(['/home']);
