@@ -27,16 +27,16 @@ namespace DatingApp.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _repo.GetUsers();
-            var userToReturn = _mapper.Map<IEnumerable<UserForListDTO>>(users);
-            return Ok(userToReturn);
+            var usersFromRepo = await _repo.GetUsers();
+            var usersToReturn = _mapper.Map<IEnumerable<UserForListDTO>>(usersFromRepo);
+            return Ok(usersToReturn);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _repo.GetUser(id);
-            var userToReturn = _mapper.Map<UserForDetailedDTO>(user);
+            var userFromRepo = await _repo.GetUser(id);
+            var userToReturn = _mapper.Map<UserForDetailedDTO>(userFromRepo);
             return Ok(userToReturn);
         }
 
@@ -47,10 +47,10 @@ namespace DatingApp.API.Controllers
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
 
-            var user = await _repo.GetUser(id);
+            var userFromRepo = await _repo.GetUser(id);
 
             // updates values from Dto and writes them to user
-            _mapper.Map(updateDTo, user);
+            _mapper.Map(updateDTo, userFromRepo);
             
             if (await _repo.SaveAll()) 
                 return NoContent();
