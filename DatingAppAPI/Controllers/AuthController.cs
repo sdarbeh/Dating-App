@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
-using DatingApp.API.Dtos;
+using DatingApp.API.DTOS;
 using DatingApp.API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -25,28 +25,28 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDto ufrDto)
+        public async Task<IActionResult> Register(UserForRegisterDTO registerDto)
         {
-            ufrDto.Username = ufrDto.Username.ToLower();
+            registerDto.Username = registerDto.Username.ToLower();
 
-            if (await _repo.UserExists(ufrDto.Username))
+            if (await _repo.UserExists(registerDto.Username))
                 return BadRequest("Username already exists");
 
             var userToCreate = new User
             {
-                Username = ufrDto.Username
+                Username = registerDto.Username
             };
 
-            var createdUser = await _repo.Register(userToCreate, ufrDto.Password);
+            var createdUser = await _repo.Register(userToCreate, registerDto.Password);
 
             // return CreatedAtRoute()
             return StatusCode(201);
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto uflDto)
+        public async Task<IActionResult> Login(UserForLoginDTO loginDto)
         {
-            var userFromRepo = await _repo.Login(uflDto.Username.ToLower(), uflDto.Password);
+            var userFromRepo = await _repo.Login(loginDto.Username.ToLower(), loginDto.Password);
 
             if (userFromRepo == null)
                 return Unauthorized();

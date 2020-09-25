@@ -23,11 +23,14 @@ import { ListComponent } from './list/list.component';
 import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 import { AlertifyService } from './_services/alertify/alertify.service';
-import { MemberDetailResolver } from './_resolvers/members/member-detail-resolver';
+import { MemberDetailResolver } from './_resolvers/members/member-detail.resolver';
 import { AuthGuard } from './_guards/auth.guard';
-import { MemberListResolver } from './_resolvers/members/member-list-resolver';
+import { MemberListResolver } from './_resolvers/members/member-list.resolver';
+import { MemberEditResolver } from './_resolvers/members/member-edit.resolver';
+import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 
 @NgModule({
   declarations: [
@@ -38,11 +41,12 @@ import { MemberListResolver } from './_resolvers/members/member-list-resolver';
     MemberListComponent,
     MemberCardComponent,
     MemberDetailComponent,
+    MemberEditComponent,
     ListComponent,
     MessagesComponent,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
@@ -65,6 +69,8 @@ import { MemberListResolver } from './_resolvers/members/member-list-resolver';
     AuthGuard,
     MemberListResolver,
     MemberDetailResolver,
+    MemberEditResolver,
+    PreventUnsavedChanges
   ],
   bootstrap: [AppComponent],
 })

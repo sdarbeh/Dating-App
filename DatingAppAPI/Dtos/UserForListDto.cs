@@ -1,8 +1,8 @@
 using System;
 
-namespace DatingApp.API.Models
+namespace DatingApp.API.DTOS
 {
-    public class UserForListDto
+    public class UserForListDTO
     {
         public int Id { get; set; }
         public string Username { get; set; }

@@ -14,7 +14,7 @@ export interface User {
   photoUrl: string;
 
   // detailed
-  interest?: string;
+  interests?: string;
   bio?: string;
   lookingFor?: string;
   photos?: Photo[];
