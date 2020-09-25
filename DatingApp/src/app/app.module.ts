@@ -8,7 +8,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
-import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 // local
 import { appRoutes } from './routes';
@@ -31,6 +31,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { MemberListResolver } from './_resolvers/members/member-list.resolver';
 import { MemberEditResolver } from './_resolvers/members/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { MemberPhotoCardComponent } from './members/member-photo-card/member-photo-card.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
     MemberListComponent,
     MemberCardComponent,
     MemberDetailComponent,
+    MemberPhotoCardComponent,
     MemberEditComponent,
     ListComponent,
     MessagesComponent,
@@ -50,10 +52,10 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
+    NgImageSliderModule,
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    NgxGalleryModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => localStorage.getItem('token'),
