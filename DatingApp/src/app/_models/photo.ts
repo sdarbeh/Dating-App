@@ -4,5 +4,4 @@ export interface Photo {
   description: string;
   created: number;
   isMain: boolean;
-  userId: number;
 }

@@ -9,6 +9,5 @@ namespace DatingApp.API.DTOS
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public bool IsMain { get; set; }
-        public int UserId { get; set; }
     }
 }

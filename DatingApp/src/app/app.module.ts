@@ -9,6 +9,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgImageSliderModule } from 'ng-image-slider';
+import { FileUploadModule } from 'ng2-file-upload';
 
 // local
 import { appRoutes } from './routes';
@@ -24,6 +25,8 @@ import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberPhotoCardComponent } from './members/member-photo-card/member-photo-card.component';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 
 import { AlertifyService } from './_services/alertify/alertify.service';
 import { MemberDetailResolver } from './_resolvers/members/member-detail.resolver';
@@ -31,7 +34,6 @@ import { AuthGuard } from './_guards/auth.guard';
 import { MemberListResolver } from './_resolvers/members/member-list.resolver';
 import { MemberEditResolver } from './_resolvers/members/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
-import { MemberPhotoCardComponent } from './members/member-photo-card/member-photo-card.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import { MemberPhotoCardComponent } from './members/member-photo-card/member-pho
     MemberDetailComponent,
     MemberPhotoCardComponent,
     MemberEditComponent,
+    PhotoEditorComponent,
     ListComponent,
     MessagesComponent,
   ],
@@ -53,6 +56,7 @@ import { MemberPhotoCardComponent } from './members/member-photo-card/member-pho
     HttpClientModule,
     FormsModule,
     NgImageSliderModule,
+    FileUploadModule,
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     RouterModule.forRoot(appRoutes),

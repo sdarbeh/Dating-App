@@ -10,7 +10,6 @@ namespace DatingAppAPI.DTOS
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public string PublicId { get; set; }
-
         public PhotoForCreationDTO() {
             Created = DateTime.Now;
         }
