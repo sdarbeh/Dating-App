@@ -96,10 +96,8 @@ export class PhotoEditorComponent implements OnInit {
       this.userService.deletePhoto(this.userId, photoId).subscribe(
         () => {
           // removes deleted photo from array
-          this.photos.slice(
-            this.photos.findIndex((p) => p.id === photoId),
-            1
-          );
+          const indexToRemove = this.photos.findIndex((p) => p.id === photoId);
+          this.photos.splice(indexToRemove, 1);
           this.alertify.success('Photo deleted');
         },
         (err: any) => {
