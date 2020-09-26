@@ -1,4 +1,14 @@
 .navbar {
+  img {
+    max-height: 27px;
+    border: 2px solid;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline;
+  }
+  .username {
+    text-transform: capitalize;
+  }
   .dropdown-toggle,
   .logout {
     cursor: pointer;

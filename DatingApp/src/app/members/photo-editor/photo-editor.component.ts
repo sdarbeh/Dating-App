@@ -64,18 +64,29 @@ export class PhotoEditorComponent implements OnInit {
 
   setMainPhoto(photo: Photo): void {
     const userId = this.authService.decodedToken.nameid;
-    this.userService.setMainPhoto(userId, photo.id).subscribe(() => {
-      // filters for the current main photo(CMP) -- returns array of one
-      this.currentMainPhoto = this.photos.filter(p => p.isMain === true)[0];
-      // sets CMP to false
-      this.currentMainPhoto.isMain = false;
-      // sets new main photo url to parent component -- member edit
-      this.getMemberPhotoChange.emit(photo.url);
-      // sets the selected photo to the main photo
-      photo.isMain = true;
-      this.alertify.success('Updated main photo');
-    }, err => {
-      this.alertify.error(err);
-    });
+    this.userService.setMainPhoto(userId, photo.id).subscribe(
+      () => {
+        // filters for the current main photo(CMP) -- returns array of one
+        this.currentMainPhoto = this.photos.filter((p) => p.isMain === true)[0];
+        // sets CMP to false
+        this.currentMainPhoto.isMain = false;
+        // sets new main photo url to parent component -- member edit
+        this.authService.changeMemberPhoto(photo.url);
+        // sets user in memory photoUrl
+        this.authService.currentUser.photoUrl = photo.url;
+        // photos will default back because user is being set in local storage
+        // updating solves problem
+        localStorage.setItem(
+          'currentUser',
+          JSON.stringify(this.authService.currentUser)
+        );
+        // sets the selected photo to the main photo
+        photo.isMain = true;
+        this.alertify.success('Updated main photo');
+      },
+      (err) => {
+        this.alertify.error(err);
+      }
+    );
   }
 }

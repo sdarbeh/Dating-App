@@ -16,7 +16,16 @@
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown [insideClick]="true">
       <a class="dropdown-toggle text-light" dropdownToggle>
-        Welcome {{ authService.decodedToken.unique_name }}
+        <span class="mr-2">
+          <img
+            src="{{ photoUrl }}"
+            alt="{{ authService.currentUser.knownAs }} profile pic"
+          />
+        </span>
+        <span
+          ><span>{{ getTimeOfDay() }} </span>
+          <span class="username">{{ authService.currentUser.username }}</span>
+        </span>
       </a>
 
       <div class="dropdown-menu mt-2" *dropdownMenu>
