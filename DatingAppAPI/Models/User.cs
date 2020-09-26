@@ -21,5 +21,10 @@ namespace DatingApp.API.Models
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
         public ICollection<Photo> Photos { get; set; }
+
+        internal static object FindFirst(object nameIdentifier)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -88,34 +88,66 @@ namespace DatingAppAPI.Controllers
                 }
             }
 
-                // sets properties for DTO
-                photoCreationDTO.Url = uploadResult.SecureUri.ToString();
-                photoCreationDTO.PublicId = uploadResult.PublicId;
+            // sets properties for DTO
+            photoCreationDTO.Url = uploadResult.SecureUri.ToString();
+            photoCreationDTO.PublicId = uploadResult.PublicId;
 
-                // maps photo dto and stores matching props
-                var photo = _mapper.Map<Photo>(photoCreationDTO);
+            // maps photo dto and stores matching props
+            var photo = _mapper.Map<Photo>(photoCreationDTO);
 
-                if (!userFromRepo.Photos.Any(u => u.IsMain))
-                    photo.IsMain = true;
+            if (!userFromRepo.Photos.Any(u => u.IsMain))
+                photo.IsMain = true;
 
-                // adds photo to db model
-                userFromRepo.Photos.Add(photo);
+            // adds photo to db model
+            userFromRepo.Photos.Add(photo);
 
-                // saves model to db
-                if (await _repo.SaveAll())
-                {
-                    // maps photo to send back to client
-                    var photoToReturn = _mapper.Map<PhotoForReturnDTO>(photo);
-                    /* 
-                        returns create route
-                        location client can request the photo
-                        ex. domain/api/photo/users/{userId}/{photoId}
-                        "Get Photo" is the api route for client
-                    */
-                    return CreatedAtRoute("GetPhoto", new { userId = userId, id = photo.Id }, photoToReturn);
-                }
+            // saves model to db
+            if (await _repo.SaveAll())
+            {
+                // maps photo to send back to client
+                var photoToReturn = _mapper.Map<PhotoForReturnDTO>(photo);
+                /* 
+                    returns create route
+                    location client can request the photo
+                    ex. domain/api/photo/users/{userId}/{photoId}
+                    "Get Photo" is the api route for client
+                */
+                return CreatedAtRoute("GetPhoto", new { userId = userId, id = photo.Id }, photoToReturn);
+            }
 
-                return BadRequest("Error uploading");
+            return BadRequest("Error uploading");
+        }
+
+        [HttpPost("{photoId}/setMain")]
+        public async Task<IActionResult> SetMainPhoto(int userId, int photoId)
+        {
+            // checks if ID matches token id
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+            
+            // checks if id matches the id of a the users' image
+            var userFromRepo = await _repo.GetUser(userId);
+            if (!userFromRepo.Photos.Any(p => p.Id == photoId))
+                return Unauthorized();
+
+            var photoFromRepo = await _repo.GetPhoto(photoId);
+
+            if (photoFromRepo.IsMain)
+                return BadRequest("Photo is already the main");
+            
+            var currentMainPhoto = await _repo.GetMainPhoto(userId);
+
+            if (currentMainPhoto != null)
+                // sets previous main photo to false
+                currentMainPhoto.IsMain = false;
+
+            // sets new photo to main
+            photoFromRepo.IsMain = true;
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            return BadRequest("Problem setting photo to main");
         }
     }
 }

@@ -1,8 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
 import { Photo } from './../../_models/photo';
 import { environment } from './../../../environments/environment';
 import { AuthService } from './../../_services/auth/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from './../../_services/user/user.service';
+import { AlertifyService } from './../../_services/alertify/alertify.service';
 
 @Component({
   selector: 'app-photo-editor',
@@ -11,11 +14,17 @@ import { AuthService } from './../../_services/auth/auth.service';
 })
 export class PhotoEditorComponent implements OnInit {
   @Input() photos: Photo[];
+  @Output() getMemberPhotoChange = new EventEmitter<string>();
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = `${environment.apiUrl}users/`;
+  currentMainPhoto: Photo;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private alertify: AlertifyService
+  ) {}
 
   ngOnInit(): void {
     this.initializeUploader();
@@ -46,10 +55,27 @@ export class PhotoEditorComponent implements OnInit {
           url: res.url,
           created: res.created,
           description: res.description,
-          isMain: res.isMain
+          isMain: res.isMain,
         };
         this.photos.push(photo);
       }
     };
+  }
+
+  setMainPhoto(photo: Photo): void {
+    const userId = this.authService.decodedToken.nameid;
+    this.userService.setMainPhoto(userId, photo.id).subscribe(() => {
+      // filters for the current main photo(CMP) -- returns array of one
+      this.currentMainPhoto = this.photos.filter(p => p.isMain === true)[0];
+      // sets CMP to false
+      this.currentMainPhoto.isMain = false;
+      // sets new main photo url to parent component -- member edit
+      this.getMemberPhotoChange.emit(photo.url);
+      // sets the selected photo to the main photo
+      photo.isMain = true;
+      this.alertify.success('Updated main photo');
+    }, err => {
+      this.alertify.error(err);
+    });
   }
 }
