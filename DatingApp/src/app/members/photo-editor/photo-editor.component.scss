@@ -1,4 +1,7 @@
 .image-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
     .img-thumbnail {
         height: 100px;
         width: 100px;
@@ -13,6 +16,9 @@
     }
     
 }
+.img-card {
+    padding: 0 7px;
+}
 
 .upload-file-container {
     .nv-file-over {
@@ -21,5 +27,16 @@
     input[type='file'] {
         color: transparent;
         margin-bottom: 10px;
+    }
+    .input-container {
+        display: flex;
+        align-items: center;
+        .input {
+            width: 100px;
+            margin-right: 10px;
+        }
+        input {
+            width: 100px;
+        }
     }
 }
