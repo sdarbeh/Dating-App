@@ -19,6 +19,7 @@ export class PhotoEditorComponent implements OnInit {
   hasBaseDropZoneOver = false;
   baseUrl = `${environment.apiUrl}users/`;
   currentMainPhoto: Photo;
+  userId: number = this.authService.decodedToken.nameid;
 
   constructor(
     private authService: AuthService,
@@ -36,7 +37,7 @@ export class PhotoEditorComponent implements OnInit {
 
   initializeUploader(): void {
     this.uploader = new FileUploader({
-      url: `${this.baseUrl}${this.authService.decodedToken.nameid}/photos`,
+      url: `${this.baseUrl}${this.userId}/photos`,
       authToken: `Bearer ${localStorage.getItem('token')}`,
       isHTML5: true,
       allowedFileType: ['image'],
@@ -63,8 +64,7 @@ export class PhotoEditorComponent implements OnInit {
   }
 
   setMainPhoto(photo: Photo): void {
-    const userId = this.authService.decodedToken.nameid;
-    this.userService.setMainPhoto(userId, photo.id).subscribe(
+    this.userService.setMainPhoto(this.userId, photo.id).subscribe(
       () => {
         // filters for the current main photo(CMP) -- returns array of one
         this.currentMainPhoto = this.photos.filter((p) => p.isMain === true)[0];
@@ -84,9 +84,28 @@ export class PhotoEditorComponent implements OnInit {
         photo.isMain = true;
         this.alertify.success('Updated main photo');
       },
-      (err) => {
+      (err: string) => {
         this.alertify.error(err);
       }
     );
+  }
+
+  deletePhoto(photoId: number): void {
+    this.alertify.confirm('Are you sure you want to delete this photo?', () => {
+      ///
+      this.userService.deletePhoto(this.userId, photoId).subscribe(
+        () => {
+          // removes deleted photo from array
+          this.photos.slice(
+            this.photos.findIndex((p) => p.id === photoId),
+            1
+          );
+          this.alertify.success('Photo deleted');
+        },
+        (err: any) => {
+          this.alertify.error('Failed to delete photo');
+        }
+      );
+    });
   }
 }

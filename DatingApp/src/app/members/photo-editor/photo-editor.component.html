@@ -1,21 +1,29 @@
 <div class="row image-container">
   <div class="img-card" *ngFor="let photo of photos">
     <img src="{{ photo.url }}" alt="" class="img-thumbnail p-1" />
-    <div class="text-center btn-container">
-      <button
-        *ngIf="!photo.isMain"
-        type="button"
-        class="btn btn-sm"
-        (click)="setMainPhoto(photo)"
-        [disabled]="photo.isMain"
-      >
-        Main
-      </button>
-      <div *ngIf="photo.isMain"></div>
-      <button type="button" class="btn btn-sm btn-danger">
-        <i class="fa fa-trash-o"></i>
-      </button>
+
+    <div *ngIf="!photo.isMain" class="dropdown mt-1" dropdown [insideClick]="true">
+      <a class="dropdown-toggle text-light" dropdownToggle>
+        <span>Options</span>
+      </a>
+
+      <div class="dropdown-menu mt-2" *dropdownMenu>
+        <button class="dropdown-item" (click)="setMainPhoto(photo)">
+          <i class="fa fa-image mr-2"></i>
+          <span>Set as main</span>
+        </button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item text-danger" (click)="deletePhoto(photo.id)">
+          <i class="fa fa-trash mr-2"></i>
+          <span>Delete</span>
+        </button>
+      </div>
     </div>
+
+    <div *ngIf="photo.isMain" class="main-photo-display mt-1">
+      <span>Main photo</span>
+    </div>
+    
   </div>
 </div>
 
