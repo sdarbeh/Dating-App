@@ -50,6 +50,10 @@ export class PhotoEditorComponent implements OnInit {
     };
     this.uploader.onSuccessItem = (item, response, status, header) => {
       if (response) {
+        /*
+          server checks if phot uploaded is the first user image
+          if so, IsMain will return true
+        */
         const res: Photo = JSON.parse(response);
         const photo = {
           id: res.id,
@@ -59,6 +63,11 @@ export class PhotoEditorComponent implements OnInit {
           isMain: res.isMain,
         };
         this.photos.push(photo);
+        //
+        if (photo.isMain) {
+          // see line 109
+          this.updateUserPhoto(photo);
+        }
       }
     };
   }
@@ -70,16 +79,8 @@ export class PhotoEditorComponent implements OnInit {
         this.currentMainPhoto = this.photos.filter((p) => p.isMain === true)[0];
         // sets CMP to false
         this.currentMainPhoto.isMain = false;
-        // sets new main photo url to parent component -- member edit
-        this.authService.changeMemberPhoto(photo.url);
-        // sets user in memory photoUrl
-        this.authService.currentUser.photoUrl = photo.url;
-        // photos will default back because user is being set in local storage
-        // updating solves problem
-        localStorage.setItem(
-          'currentUser',
-          JSON.stringify(this.authService.currentUser)
-        );
+        // see line 109
+        this.updateUserPhoto(photo);
         // sets the selected photo to the main photo
         photo.isMain = true;
         this.alertify.success('Updated main photo');
@@ -105,5 +106,18 @@ export class PhotoEditorComponent implements OnInit {
         }
       );
     });
+  }
+
+  updateUserPhoto(photo: Photo): void {
+    // sets new main photo url to parent component -- member edit
+    this.authService.changeMemberPhoto(photo.url);
+    // sets user in memory photoUrl
+    this.authService.currentUser.photoUrl = photo.url;
+    // photos will default back because user is being set in local storage
+    // updating solves problem
+    localStorage.setItem(
+      'currentUser',
+      JSON.stringify(this.authService.currentUser)
+    );
   }
 }
