@@ -13,6 +13,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeagoModule } from 'ngx-timeago';
 
+
 // local
 import { appRoutes } from './routes';
 import { AuthService } from './_services/auth/auth.service';
