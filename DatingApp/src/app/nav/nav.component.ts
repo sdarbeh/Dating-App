@@ -23,7 +23,7 @@ export class NavComponent implements OnInit {
       (photoUrl) => (this.photoUrl = photoUrl)
     );
   }
-
+  
   login(): void {
     this.authService.login(this.model).subscribe(
       (next) => {

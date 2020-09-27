@@ -23,6 +23,5 @@ export class MemberDetailComponent implements OnInit {
       this.user = data.user;
     });
     console.log(this.user.photos.length);
-    
   }
 }
