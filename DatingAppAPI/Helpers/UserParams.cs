@@ -18,7 +18,5 @@ namespace DatingAppAPI.Helpers
             // if true, value is set to max page.. if false value is kept
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
-
-        public int TotalCount { get; set; }
     }
 }

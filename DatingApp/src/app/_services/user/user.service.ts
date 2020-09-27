@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from './../../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/_models/user';
+import { PaginatedResult } from 'src/app/_models/pagination';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +14,30 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  // Observable are just that — things you wish to observe and take action on
-  getUsers(): Observable<User[]> {
+  getUsers(page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
     // 'get<User[]>'tells angular type we're receiving
-    return this.http.get<User[]>(`${this.baseUrl}`);
+    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+
+    let params = new HttpParams();
+
+    if (page != null && itemsPerPage != null) {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsPerPage);
+    }
+
+    return this.http
+      .get<User[]>(`${this.baseUrl}`, { observe: 'response', params })
+      .pipe(
+        map((res) => {
+          paginatedResult.result = res.body;
+          if (res.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(
+              res.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
   }
 
   getUser(id): Observable<User> {
@@ -27,7 +49,10 @@ export class UserService {
   }
 
   setMainPhoto(userId: number, photoId: number): any {
-    return this.http.post(`${this.baseUrl}${userId}/photos/${photoId}/setMain`, {});
+    return this.http.post(
+      `${this.baseUrl}${userId}/photos/${photoId}/setMain`,
+      {}
+    );
   }
 
   deletePhoto(userId: number, photoId: number): any {

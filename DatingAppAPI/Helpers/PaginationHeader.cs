@@ -11,9 +11,9 @@ namespace DatingAppAPI.Helpers
 
         public int TotalPages { get; set; }
 
-        public PaginationHeader(int curPage, int itemsPerPage, int totalItems, int totalPages)
+        public PaginationHeader(int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
-            this.CurrentPage = curPage;
+            this.CurrentPage = currentPage;
             this.ItemsPerPage = itemsPerPage;
             this.TotalItems = totalItems;
             this.TotalPages = totalPages;

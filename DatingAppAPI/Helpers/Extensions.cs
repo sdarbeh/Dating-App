@@ -14,9 +14,9 @@ namespace DatingApp.API.Helpers
             res.Headers.Add("Access-Control-Allow-Origin", "*");
         }
 
-        public static void AddPagination(this HttpResponse res, int curPage, int itemsPerPage, int totalItems, int totalPages)
+        public static void AddPagination(this HttpResponse res, int currentPage, int itemsPerPage, int totalItems, int totalPages)
         {
-            var paginationHeader = new PaginationHeader(curPage, itemsPerPage, totalItems, totalPages);
+            var paginationHeader = new PaginationHeader(currentPage, itemsPerPage, totalItems, totalPages);
             res.Headers.Add("Pagination", JsonConvert.SerializeObject(paginationHeader));
             res.Headers.Add("Access-Control-Expose-Headers", "Pagination");
         }
