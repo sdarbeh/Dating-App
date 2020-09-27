@@ -3,7 +3,6 @@ import { FileUploader } from 'ng2-file-upload';
 import { Photo } from './../../_models/photo';
 import { environment } from './../../../environments/environment';
 import { AuthService } from './../../_services/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { UserService } from './../../_services/user/user.service';
 import { AlertifyService } from './../../_services/alertify/alertify.service';
 

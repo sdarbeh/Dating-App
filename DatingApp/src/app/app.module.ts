@@ -11,7 +11,7 @@ import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { TimeagoModule } from 'ngx-timeago';
 
 // local
 import { appRoutes } from './routes';
@@ -60,6 +60,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
     ReactiveFormsModule,
     NgImageSliderModule,
     FileUploadModule,
+    TimeagoModule.forRoot(),
     TabsModule.forRoot(),
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
