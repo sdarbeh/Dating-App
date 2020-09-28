@@ -28,8 +28,24 @@ namespace DatingApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
+        public async Task<IActionResult> GetUsers([FromQuery] UserParams userParams)
         {
+            var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var userFromRepo = await _repo.GetUser(currentUserId);
+
+            userParams.UserId = currentUserId;
+
+            // placeholder intially checks if params gender is empty
+            // if so, filter will send opposite gender
+            // however client side accepts custom genders so this method will fail
+
+            // checks if gender feild was specified
+            if (string.IsNullOrEmpty(userParams.Gender))
+            {
+                userParams.Gender = "all";
+            }
+
             var usersFromRepo = await _repo.GetUsers(userParams);
 
             var usersToReturn = _mapper.Map<IEnumerable<UserForListDTO>>(usersFromRepo);
@@ -52,7 +68,7 @@ namespace DatingApp.API.Controllers
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDTO updateDTo)
         {
             // checks if ID matches token id
-            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            if (id != int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
                 return Unauthorized();
 
             var userFromRepo = await _repo.GetUser(id);

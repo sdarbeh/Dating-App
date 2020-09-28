@@ -8,10 +8,16 @@ import { Pagination, PaginatedResult } from 'src/app/_models/pagination';
 @Component({
   selector: 'app-member-list',
   templateUrl: './member-list.component.html',
-  styleUrls: ['./member-list.component.css'],
+  styleUrls: ['./member-list.component.scss'],
 })
 export class MemberListComponent implements OnInit {
   users: User[];
+  genderList = [
+    { value: 'all', display: 'All' },
+    { value: 'male', display: 'Males' },
+    { value: 'female', display: 'Females' },
+  ];
+  userParams: any = {};
   pagination: Pagination;
 
   constructor(
@@ -26,21 +32,35 @@ export class MemberListComponent implements OnInit {
       this.users = result;
       this.pagination = pagination;
     });
+    this.resetFilters();
   }
 
   pagedChanged(event: any): void {
     this.pagination.CurrentPage = event.page;
-    this.loadUser();
+    this.loadUsers();
   }
 
-  loadUser(): void {
+  resetFilters(): void {
+    this.userParams.gender = 'all';
+    this.userParams.minAge = 18;
+    this.userParams.maxAge = 99;
+    this.userParams.orderBy = 'lastActive';
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
     const { CurrentPage, ItemsPerPage } = this.pagination;
 
-    this.userService.getUsers(CurrentPage, ItemsPerPage).subscribe((res: PaginatedResult<User[]>) => {
-      this.users = res.result;
-      this.pagination = res.pagination;
-    }, err => {
-      this.alertify.error(err);
-    });
+    this.userService
+      .getUsers(CurrentPage, ItemsPerPage, this.userParams)
+      .subscribe(
+        (res: PaginatedResult<User[]>) => {
+          this.users = res.result;
+          this.pagination = res.pagination;
+        },
+        (err) => {
+          this.alertify.error(err);
+        }
+      );
   }
 }

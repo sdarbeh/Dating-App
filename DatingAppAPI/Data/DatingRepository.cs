@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,7 +45,39 @@ namespace DatingApp.API.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(p => p.Photos);
+            // gets users -- sorts by last active
+            var users = _context.Users.Include(p => p.Photos).OrderByDescending(u => u.LastActive).AsQueryable();
+
+            users = users.Where(u => u.Id != userParams.UserId);
+
+            if (userParams.Gender != "all")
+            {
+                // if params equals all -- all users will be sent
+                // else specified male of female willbe sent
+                users = users.Where(u => u.Gender == userParams.Gender);
+            }
+
+            if (userParams.MinAge != 18 || userParams.MinAge != 99)
+            {
+                var minDOB = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+                var maxDOB = DateTime.Today.AddYears(-userParams.MinAge);
+
+                users = users.Where(u => u.DOB >= minDOB && u.DOB <= maxDOB);
+            }
+
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                // checks client custom sorting.. default is last active
+                switch (userParams.OrderBy)
+                {
+                    case "created":
+                        users = users.OrderByDescending(u => u.Created);
+                        break;
+                    default:
+                        users = users.OrderByDescending(u => u.LastActive);
+                        break;
+                }
+            }
 
             return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
         }
