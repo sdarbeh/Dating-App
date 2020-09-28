@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DatingAppAPI.Models;
 
 namespace DatingApp.API.Models
 {
@@ -22,9 +23,7 @@ namespace DatingApp.API.Models
         public DateTime LastActive { get; set; }
         public ICollection<Photo> Photos { get; set; }
 
-        internal static object FindFirst(object nameIdentifier)
-        {
-            throw new NotImplementedException();
-        }
+        public ICollection<Like> Likers { get; set; }
+        public ICollection<Like> Likees { get; set; }
     }
 }

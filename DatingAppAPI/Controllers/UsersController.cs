@@ -8,6 +8,7 @@ using DatingApp.API.DTOS;
 using DatingApp.API.Helpers;
 using DatingAppAPI.DTOS;
 using DatingAppAPI.Helpers;
+using DatingAppAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,6 +81,35 @@ namespace DatingApp.API.Controllers
                 return NoContent();
 
             throw new Exception($"Updating user {id} failed on save");
+        }
+    
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int id, int recipientId) 
+        {
+            // checks if ID matches token id
+            if (id != int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                return Unauthorized();
+            
+            var like = await _repo.GetLike(id, recipientId);
+
+            if (like != null)
+                return BadRequest("You already like this user");
+            
+            if (await _repo.GetUser(recipientId) == null)
+                return NotFound();
+            
+            like = new Like 
+            {
+                LikerId = id,
+                LikeeId = recipientId
+            };
+            
+            _repo.Add<Like>(like);
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Problem liking user");
         }
     }
 }

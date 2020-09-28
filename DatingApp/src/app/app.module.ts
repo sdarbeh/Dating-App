@@ -38,6 +38,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { MemberListResolver } from './_resolvers/members/member-list.resolver';
 import { MemberEditResolver } from './_resolvers/members/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
+import { ListsResolver } from './_resolvers/lists/lists.resolver';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
     MemberDetailResolver,
     MemberEditResolver,
     PreventUnsavedChanges,
+    ListsResolver,
   ],
   bootstrap: [AppComponent],
 })
