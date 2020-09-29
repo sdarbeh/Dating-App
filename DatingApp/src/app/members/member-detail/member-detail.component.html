@@ -57,12 +57,7 @@
             <p>{{ user.interests }}</p>
           </tab>
           <tab heading="Photos">
-            <div
-              *ngFor="let photo of user.photos"
-              class="col-xl-5 col-lg-5 col-mg-4 col-sm-6"
-            >
-              <app-member-photo-card [photo]="photo"></app-member-photo-card>
-            </div>
+            <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
           </tab>
           <tab heading="Messages">
             <app-member-messages

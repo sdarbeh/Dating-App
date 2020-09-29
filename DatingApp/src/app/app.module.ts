@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { NgImageSliderModule } from 'ng-image-slider';
 import { FileUploadModule } from 'ng2-file-upload';
 import { TimeagoModule } from 'ngx-timeago';
@@ -65,6 +66,7 @@ import { MessagesResolver } from './_resolvers/messages/messages.resolver';
     FormsModule,
     ReactiveFormsModule,
     NgImageSliderModule,
+    NgxGalleryModule,
     FileUploadModule,
     TimeagoModule.forRoot(),
     TabsModule.forRoot(),

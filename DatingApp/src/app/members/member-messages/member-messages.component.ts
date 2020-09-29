@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Message } from 'src/app/_models/message';
-import { PaginatedResult } from 'src/app/_models/pagination';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { AuthService } from 'src/app/_services/auth/auth.service';
-import { UserService } from 'src/app/_services/user/user.service';
 import { MessageService } from './../../_services/message/message.service';
 import { tap } from 'rxjs/operators';
 
@@ -35,7 +33,10 @@ export class MemberMessagesComponent implements OnInit {
       .pipe(
         tap((messages: any) => {
           messages.forEach((msg: any) => {
-            if (msg.isRead === false && msg.recipientId === +this.curentUserId) {
+            if (
+              msg.isRead === false &&
+              msg.recipientId === +this.curentUserId
+            ) {
               this.messageService.markAsRead(msg.id, this.curentUserId);
             }
           });
@@ -52,7 +53,6 @@ export class MemberMessagesComponent implements OnInit {
         }
       );
   }
-  
 
   sortByDate(messages: any): void {
     messages.sort((a: any, b: any) => {
@@ -87,7 +87,7 @@ export class MemberMessagesComponent implements OnInit {
             this.messages.splice(messageIndex, 1);
             this.alertify.success('Message deleted');
           },
-          (err) => {
+          () => {
             this.alertify.error('Problem deleted message');
           }
         );

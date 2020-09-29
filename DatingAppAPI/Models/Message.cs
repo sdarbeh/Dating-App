@@ -1,5 +1,4 @@
 using System;
-using DatingAppAPI.Models;
 
 namespace DatingAppAPI.Models
 {

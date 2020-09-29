@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/_models/user';
-import { UserService } from './../../_services/user/user.service';
-import { AlertifyService } from './../../_services/alertify/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
+import {
+  NgxGalleryAnimation,
+  NgxGalleryImage,
+  NgxGalleryOptions,
+} from '@kolkov/ngx-gallery';
 
 @Component({
   selector: 'app-member-detail',
@@ -11,21 +14,56 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs';
   styleUrls: ['./member-detail.component.scss'],
 })
 export class MemberDetailComponent implements OnInit {
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[];
   @ViewChild('memberTabs', { static: true }) memberTabs: TabsetComponent;
   user: User;
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    // gallery
+    this.galleryOptions = [
+      {
+        width: '500px',
+        height: '500px',
+        imagePercent: 100,
+        thumbnailsColumns: 4,
+        imageAnimation: NgxGalleryAnimation.Slide,
+        preview: true,
+      },
+    ];
+
     const { data, queryParams } = this.route;
+    // tab params
+    queryParams.subscribe((params) => {
+      let selectedTab = params.tab;
+
+      if (!selectedTab || selectedTab > 3) {
+        selectedTab = 0;
+      }
+
+      this.memberTabs.tabs[selectedTab].active = true;
+    });
+
+    // user data
     // tslint:disable-next-line: no-shadowed-variable
     data.subscribe((data) => {
       this.user = data.user;
+      this.galleryImages = this.getImages();
     });
-    queryParams.subscribe((params) => {
-      const selectedTab = params.tab;
-      this.memberTabs.tabs[selectedTab > 3 ? 0 : selectedTab].active = true;
+  }
+
+  getImages(): NgxGalleryImage[] {
+    const imageUrls = [];
+    this.user.photos.forEach((photo) => {
+      imageUrls.push({
+        small: photo?.url,
+        medium: photo?.url,
+        big: photo?.url,
+      });
     });
+    return imageUrls;
   }
 
   selectTab(tabId: number): void {

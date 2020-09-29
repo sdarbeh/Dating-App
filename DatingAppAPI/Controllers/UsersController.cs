@@ -91,7 +91,7 @@ namespace DatingAppAPI.Controllers
             var like = await _repo.GetLike(id, recipientId);
 
             if (like != null)
-                return BadRequest("You already like this user");
+                return BadRequest("You already liked this user");
             
             if (await _repo.GetUser(recipientId) == null)
                 return NotFound();

@@ -1,5 +1,3 @@
-using DatingAppAPI.Models;
-
 namespace DatingAppAPI.Models
 {
     public class Like

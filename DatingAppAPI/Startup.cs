@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using DatingAppAPI.Data;
 using DatingAppAPI.Helpers;
@@ -12,13 +8,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace DatingApp.API
@@ -89,16 +82,23 @@ namespace DatingApp.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
+            
             app.UseAuthentication();
 
             app.UseAuthorization();
 
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            // static files
+            // comment lines 94,94 & 101 for non production
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }

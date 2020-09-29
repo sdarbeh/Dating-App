@@ -3,7 +3,6 @@ import { AuthService } from '../_services/auth/auth.service';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
