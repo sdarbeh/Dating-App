@@ -1,10 +1,9 @@
 using System.Linq;
 using AutoMapper;
-using DatingApp.API.DTOS;
-using DatingApp.API.Models;
+using DatingAppAPI.Models;
 using DatingAppAPI.DTOS;
 
-namespace DatingApp.API.Helpers
+namespace DatingAppAPI.Helpers
 {
     public class AutoMapperProfiles : Profile
     {
@@ -25,8 +24,8 @@ namespace DatingApp.API.Helpers
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                     src.DOB.CalulateAge()));
 
-            CreateMap<UserForUpdateDTO, User>();        
-            
+            CreateMap<UserForUpdateDTO, User>();
+
             // photos
             CreateMap<Photo, PhotoForDetailedDTO>();
             CreateMap<Photo, PhotoForReturnDTO>();
@@ -34,6 +33,16 @@ namespace DatingApp.API.Helpers
 
             //
             CreateMap<UserForRegisterDTO, User>();
+
+            //
+            CreateMap<MessageForCreationDTO, Message>().ReverseMap();
+            CreateMap<Message, MessageForReturnDTO>()
+                // custom maps for photo urls - sender
+                .ForMember(m => m.SenderPhotoUrl, opt => opt
+                    .MapFrom(u => u.Sender.Photos.FirstOrDefault(p => p.IsMain).Url))
+                // recipient
+                .ForMember(m => m.RecipientPhotoUrl, opt => opt
+                    .MapFrom(u => u.Recipient.Photos.FirstOrDefault(p => p.IsMain).Url));
         }
     }
 }

@@ -4,14 +4,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using DatingApp.API.Data;
-using DatingApp.API.DTOS;
-using DatingApp.API.Models;
+using DatingAppAPI.Data;
+using DatingAppAPI.DTOS;
+using DatingAppAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace DatingApp.API.Controllers
+namespace DatingAppAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

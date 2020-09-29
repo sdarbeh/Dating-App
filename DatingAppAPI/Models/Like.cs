@@ -1,4 +1,4 @@
-using DatingApp.API.Models;
+using DatingAppAPI.Models;
 
 namespace DatingAppAPI.Models
 {

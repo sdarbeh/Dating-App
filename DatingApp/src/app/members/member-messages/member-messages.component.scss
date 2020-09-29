@@ -1,0 +1,103 @@
+.messages-container {
+  .card-body {
+    height: calc(100vh - 40px - 73px);
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .card {
+    border: none;
+  }
+  .chat {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    .header {
+      margin-bottom: 5px;
+    }
+    .chat-img {
+      margin-right: 5px;
+    }
+    .rounded-circle {
+      height: 25px;
+      width: 25px;
+    }
+  }
+  .recipient-msg,
+  .current-user-msg {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .msg {
+    position: relative;
+  }
+  .delete-btn {
+    position: absolute;
+    color: var(--gray);
+    opacity: 0;
+  }
+  .content {
+    padding: 10px;
+    border-radius: 10px;
+    width: fit-content;
+    color: var(--white);
+    &:hover .delete-btn {
+      opacity: 80%;
+    }
+  }
+  .recipient-msg {
+    align-items: flex-start;
+    .content {
+      background-color: var(--gray);
+    }
+    .delete-btn {
+      right: -45px;
+    }
+  }
+  .current-user-msg {
+    align-items: flex-end;
+    .content {
+      background-color: var(--blue);
+    }
+    .delete-btn {
+      left: -45px;
+    }
+  }
+  button {
+    border: none;
+    outline: none;
+    transition: 0.3s ease-in;
+    background-color: transparent;
+  }
+  
+  // chat form
+  .input-chat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    button {
+      width: max-content;
+      height: 100%;
+      color: var(--blue);
+      font-weight: 700;
+      padding: 0 0 0 10px;
+
+      &:hover {
+        color: var(--info);
+      }
+      &:disabled {
+        color: var(--gray);
+        &:hover {
+          color: var(--gray);
+        }
+      }
+    }
+  }
+  @media (min-width: 768px) {
+    .card-body {
+      height: 580px;
+    }
+  }
+}

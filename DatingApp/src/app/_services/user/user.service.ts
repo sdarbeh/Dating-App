@@ -14,55 +14,51 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(
-    page?,
-    itemsPerPage?,
-    userParams?,
-    likeParam?
-  ): Observable<PaginatedResult<User[]>> {
-    // 'get<User[]>'tells angular type we're receiving
-    const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<
-      User[]
-    >();
+  getUsers(page?: any, itemsPerPage?: any, userParams?: any, likeParam?: any)
+    : Observable<PaginatedResult<User[]>> {
+      // 'get<User[]>'tells angular type we're receiving
+      const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
 
-    let params = new HttpParams();
+      let params = new HttpParams();
 
-    if (page != null && itemsPerPage != null) {
-      params = params.append('pageNumber', page);
-      params = params.append('pageSize', itemsPerPage);
-    }
+      if (page != null && itemsPerPage != null) {
+        params = params.append('pageNumber', page);
+        params = params.append('pageSize', itemsPerPage);
+      }
 
-    if (userParams != null) {
-      params = params.append('minAge', userParams.minAge);
-      params = params.append('maxAge', userParams.maxAge);
-      params = params.append('gender', userParams.gender);
-      params = params.append('orderBy', userParams.orderBy);
-    }
+      if (userParams != null) {
+        params = params.append('minAge', userParams.minAge);
+        params = params.append('maxAge', userParams.maxAge);
+        params = params.append('gender', userParams.gender);
+        params = params.append('orderBy', userParams.orderBy);
+      }
 
-    if (likeParam === 'Likers') {
-      params = params.append('Likers', 'true');
-    }
+      if (likeParam === 'Likers') {
+        params = params.append('Likers', 'true');
+      }
 
-    if (likeParam === 'Likees') {
-      params = params.append('Likees', 'true');
-    }
+      if (likeParam === 'Likees') {
+        params = params.append('Likees', 'true');
+      }
 
-    return this.http
-      .get<User[]>(`${this.baseUrl}`, { observe: 'response', params })
-      .pipe(
-        map((res) => {
-          paginatedResult.result = res.body;
-          if (res.headers.get('Pagination') != null) {
-            paginatedResult.pagination = JSON.parse(
-              res.headers.get('Pagination')
-            );
-          }
-          return paginatedResult;
-        })
-      );
+      return this.http
+        .get<User[]>(`${this.baseUrl}`, { observe: 'response', params })
+        .pipe(
+          map((res) => {
+            const paginationHeader = res.headers.get('Pagination');
+            paginatedResult.result = res.body;
+
+            if (paginationHeader != null) {
+              paginatedResult.pagination = JSON.parse(
+                paginationHeader
+              );
+            }
+            return paginatedResult;
+          })
+        );
   }
 
-  getUser(id): Observable<User> {
+  getUser(id: any): Observable<User> {
     return this.http.get<User>(`${this.baseUrl}${id}`);
   }
 

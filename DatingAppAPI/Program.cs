@@ -1,5 +1,5 @@
 using System;
-using DatingApp.API.Data;
+using DatingAppAPI.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

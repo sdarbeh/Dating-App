@@ -29,6 +29,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MemberCardComponent } from './members/member-card/member-card.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 import { MemberPhotoCardComponent } from './members/member-photo-card/member-photo-card.component';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 
@@ -39,6 +40,7 @@ import { MemberListResolver } from './_resolvers/members/member-list.resolver';
 import { MemberEditResolver } from './_resolvers/members/member-edit.resolver';
 import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { ListsResolver } from './_resolvers/lists/lists.resolver';
+import { MessagesResolver } from './_resolvers/messages/messages.resolver';
 
 @NgModule({
   declarations: [
@@ -51,12 +53,13 @@ import { ListsResolver } from './_resolvers/lists/lists.resolver';
     MemberDetailComponent,
     MemberPhotoCardComponent,
     MemberEditComponent,
+    MemberMessagesComponent,
     PhotoEditorComponent,
     ListComponent,
     MessagesComponent,
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
@@ -88,6 +91,7 @@ import { ListsResolver } from './_resolvers/lists/lists.resolver';
     MemberEditResolver,
     PreventUnsavedChanges,
     ListsResolver,
+    MessagesResolver
   ],
   bootstrap: [AppComponent],
 })

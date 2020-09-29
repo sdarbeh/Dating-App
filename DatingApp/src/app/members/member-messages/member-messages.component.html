@@ -1,0 +1,95 @@
+<div class="card messages-container">
+  <div class="card-body">
+    <div *ngIf="!messages">
+      <p>No messages yet.. say hi to</p>
+    </div>
+
+    <ul class="chat">
+      <li *ngFor="let message of messages">
+        <!-- from recipient -->
+        <div *ngIf="message.senderId == recipientId" class="recipient-msg">
+          <div class="content">
+            <div class="header">
+              <span class="chat-img">
+                <img
+                  class="rounded-circle"
+                  src="{{ message.senderPhotoUrl }}"
+                  alt="{{ message.senderKnownAs }}"
+                />
+              </span>
+              <strong>{{ message.senderKnownAs }}</strong>
+            </div>
+            <div class="msg">
+              <span>{{ message.content }}</span>
+              <button class="delete-btn" title="Delete" (click)="deleteMessage(message.id)">
+                <i class="fa fa-trash mr-2"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chat-foot">
+            <small class="text-muted">
+              <span class="fa fa-clock-o">
+                {{ message.messageSent | timeago: false }}
+              </span>
+            </small>
+          </div>
+        </div>
+
+        <!-- from current user -->
+        <div *ngIf="message.senderId != recipientId" class="current-user-msg">
+          <div class="content">
+            <!-- <div class="header">
+              <span class="chat-img">
+                <img
+                  class="rounded-circle"
+                  src=" message.senderPhotoUrl "
+                  alt=" message.senderKnownAs "
+                />
+              </span>
+              <strong> message.senderKnownAs </strong>
+            </div> -->
+            <div class="msg">
+              <span>{{ message.content }}</span>
+              <button class="delete-btn" title="Delete" (click)="deleteMessage(message.id)">
+                <i class="fa fa-trash mr-2"></i>
+              </button>
+            </div>
+          </div>
+          <div class="chat-foot">
+            <small class="text-muted">
+              <!-- Time -->
+              <span class="fa fa-clock-o">
+                {{ message.messageSent | timeago: false }}
+              </span>
+              <!-- Is read -->
+              <span *ngIf="!message.isRead">&nbsp;unread</span>
+              <span *ngIf="message.isRead">
+                <span>read&nbsp;</span>
+                {{ message.dateRead | timeago: false }}</span
+              >
+            </small>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- Chat form -->
+  <div class="card-footer">
+    <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
+      <div class="input-chat">
+        <input
+          [(ngModel)]="newMessage.content"
+          type="text"
+          name="content"
+          required
+          class="form-control input-sm"
+          placeholder="Send a message to {{ recipientName }}..."
+          autofocus
+        />
+        <button [disabled]="!messageForm.valid">
+          <span>send</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

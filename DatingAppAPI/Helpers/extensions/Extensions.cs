@@ -3,7 +3,7 @@ using DatingAppAPI.Helpers;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace DatingApp.API.Helpers
+namespace DatingAppAPI.Helpers
 {
     public static class Extensions
     {

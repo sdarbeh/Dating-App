@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using DatingAppAPI.Models;
 
-namespace DatingApp.API.Models
+namespace DatingAppAPI.Models
 {
     public class User
     {
@@ -25,5 +25,8 @@ namespace DatingApp.API.Models
 
         public ICollection<Like> Likers { get; set; }
         public ICollection<Like> Likees { get; set; }
+
+        public ICollection<Message> MessageSent { get; set; }
+        public ICollection<Message> MessageReceived { get; set; }
     }
 }

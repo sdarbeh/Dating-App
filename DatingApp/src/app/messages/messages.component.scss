@@ -1,0 +1,27 @@
+.container {
+  table {
+    margin-top: 15px;
+  }
+  tr, .delete-btn {
+    transition: .3 ease-in;
+  }
+  tr:hover {
+    opacity: 80%;
+    .delete-btn {
+      opacity: 60%;
+    }
+  }
+  .delete-btn {
+    opacity: 0;
+  }
+  td {
+      vertical-align: middle;
+  }
+  .img-circle {
+      max-height: 35px;
+      margin-right: 10px;
+  }
+  .delete-btn .fa {
+      margin: 0 !important;
+  }
+}

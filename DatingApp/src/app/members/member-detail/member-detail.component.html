@@ -1,11 +1,6 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-sm-4">
-      <h1>{{user.knownAs}}'s Profile</h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
       <div class="card">
         <img
           class="card-img-top img-thumbnail"
@@ -13,6 +8,12 @@
           alt="{{ user.knownAs }}"
         />
         <div class="card-body">
+          <div class="user-bio-name">
+            <div class="known-as">
+              {{ user.knownAs }}
+            </div>
+            <p class="username">@{{ user.username }}</p>
+          </div>
           <div>
             <strong>Location:</strong>
             <p>{{ user.city }}, {{ user.country }}</p>
@@ -23,7 +24,7 @@
           </div>
           <div>
             <strong>Last Active:</strong>
-            <p>{{ user.lastActive | timeago }}</p>
+            <p>{{ user.lastActive | timeago: false }}</p>
           </div>
           <div>
             <strong>Member since:</strong>
@@ -32,16 +33,20 @@
         </div>
         <div class="card-footer">
           <div>
-            <button class="btn btn-primary mr-2">Like</button>
-            <button class="btn btn-success">Message</button>
+            <button class="btn like-btn mr-2">
+              <i class="fa fa-heart"></i>
+            </button>
+            <button class="btn message-btn" (click)="selectTab(3)">
+              Message
+            </button>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sm-8">
       <div class="tab-panel">
-        <tabset class="member-tabset">
-          <tab heading="About {{ user.knownAs }}">
+        <tabset class="member-tabset" #memberTabs>
+          <tab heading="About">
             <h4>Description:</h4>
             <p>{{ user.bio }}</p>
             <h4>Looking For:</h4>
@@ -52,19 +57,21 @@
             <p>{{ user.interests }}</p>
           </tab>
           <tab heading="Photos">
-            <div *ngFor="let photo of user.photos" class="col-xl-5 col-lg-5 col-mg-4 col-sm-6">
+            <div
+              *ngFor="let photo of user.photos"
+              class="col-xl-5 col-lg-5 col-mg-4 col-sm-6"
+            >
               <app-member-photo-card [photo]="photo"></app-member-photo-card>
             </div>
           </tab>
           <tab heading="Messages">
-            <p>Messages goes here</p>
+            <app-member-messages
+              [recipientId]="user.id"
+              [recipientName]="user.knownAs"
+            ></app-member-messages>
           </tab>
         </tabset>
       </div>
     </div>
   </div>
-</div>
-
-<div class="loading">
-  <span></span>
 </div>

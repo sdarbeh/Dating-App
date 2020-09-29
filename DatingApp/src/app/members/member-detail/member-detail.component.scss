@@ -1,8 +1,18 @@
 .container {
-    .img-thumbnail {
-        margin: 25px;
-        width: 85%;
-        height: 85%;
-        border: none;
+  .img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+    border: none;
+  }
+  .user-bio-name {
+    .known-as {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.1rem;
     }
+    .username {
+      color: var(--gray);
+    }
+  }
 }

@@ -1,45 +1,81 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import '../node_modules/bootswatch/dist/slate/bootstrap.min.css';
-@import '../node_modules/font-awesome/css/font-awesome.css';
-@import '../node_modules/alertifyjs/build/css/alertify.min.css';
-@import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
-@import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/bootswatch/dist/slate/bootstrap.min.css";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+@import "../node_modules/alertifyjs/build/css/alertify.min.css";
+@import "../node_modules/alertifyjs/build/css/themes/bootstrap.min.css";
+@import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 
 /* ===========
 Snippet for styles.css to style the tabs component
 =========== */
 
 .tab-panel {
-    padding: 10px;
-    border-radius: 4px;
-  }
-  
-  .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {
-    border-bottom: 4px solid;
-  }
-  
-  .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
-    border: 0;
-    background: none !important;
-  }
-  
-  .member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
-    margin-top: 0px;
-  }
-  
-  .member-tabset > .nav-tabs > li.active {
-    border-bottom: 4px solid;
-    position: relative;
-  }
-  
-  .member-tabset > .nav-tabs > li.active > a {
-    border: 0 !important;
-  }
+  margin-top: 75px;
+}
 
-  .member-tabset > .tab-content {
-    margin-top: -3px;
-    border: 0;
-    border-top: 1px solid ;
-    padding: 15px 0;
+@media (min-width: 768px) {
+  .tab-panel {
+    margin-top: 0;
   }
+}
+
+.nav-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--primary) !important;
+}
+.nav-tabs a {
+  text-align: center;
+  border: none !important;
+  outline: none;
+  background-color: var(--primary);
+  border-radius: 0 !important;
+}
+
+.nav-tabs > li.open,
+.member-tabset > .nav-tabs > li:hover {
+  border-bottom: 4px solid;
+}
+
+.member-tabset > .nav-tabs > li.open > a,
+.member-tabset > .nav-tabs > li:hover > a {
+  border: 0;
+}
+
+.member-tabset > .nav-tabs > li.open .dropdown-menu,
+.member-tabset > .nav-tabs > li:hover .dropdown-menu {
+  margin-top: 0px;
+}
+
+.member-tabset > .nav-tabs > li.active {
+  border-bottom: 4px solid var(--blue);
+  position: relative;
+}
+
+.member-tabset > .nav-tabs > li.active > a {
+  border: 0 !important;
+}
+
+.member-tabset > .tab-content {
+  margin-top: -3px;
+  border: 0;
+  padding: 15px 0;
+}
+
+.btn {
+  border: none;
+  color: var(--white);
+}
+
+.user-btn {
+  background-color: var(--gray);
+}
+
+.message-btn {
+  background-color: var(--blue);
+}
+
+.like-btn {
+  background-color: var(--red);
+}

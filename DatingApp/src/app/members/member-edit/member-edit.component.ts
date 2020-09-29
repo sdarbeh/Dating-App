@@ -16,6 +16,7 @@ export class MemberEditComponent implements OnInit {
   // @HostListener('window:beforeunload', ['$event'])
   user: User;
   photoUrl: string;
+  userId: number = this.authService.decodedToken.nameid;
 
   // unloadNotification($event: any): any {
   //   if (this.editForm.dirty) {
@@ -41,7 +42,7 @@ export class MemberEditComponent implements OnInit {
 
   updateUser(): void {
     this.service
-      .updateUser(this.authService.decodedToken.nameid, this.user)
+      .updateUser(this.userId, this.user)
       .subscribe(
         (next) => {
           this.alertify.success('Changeds saved');
