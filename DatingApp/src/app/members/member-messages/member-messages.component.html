@@ -58,14 +58,14 @@
           <div class="chat-foot">
             <small class="text-muted">
               <!-- Time -->
-              <span class="fa fa-clock-o">
+              <div class="fa fa-clock-o">
                 {{ message.messageSent | timeago: false }}
-              </span>
+              </div>
               <!-- Is read -->
-              <span *ngIf="!message.isRead">&nbsp;unread</span>
-              <span *ngIf="message.isRead">
+              <div *ngIf="!message.isRead">&nbsp;unread</div>
+              <div *ngIf="message.isRead">
                 <span>read&nbsp;</span>
-                {{ message.dateRead | timeago: false }}</span
+                {{ message.dateRead | timeago: false }}</div
               >
             </small>
           </div>

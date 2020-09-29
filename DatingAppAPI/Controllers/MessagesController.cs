@@ -145,9 +145,6 @@ namespace DatingAppAPI.Controllers
 
             var messageFromRepo = await _repo.GetMessage(id);
 
-            if (messageFromRepo.IsRead)
-                return NoContent();
-
             if (messageFromRepo.RecipientId != userId)
                 return Unauthorized();
 

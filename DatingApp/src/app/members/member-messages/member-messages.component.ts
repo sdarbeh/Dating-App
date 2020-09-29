@@ -34,15 +34,11 @@ export class MemberMessagesComponent implements OnInit {
       .getMessageThread(this.curentUserId, this.recipientId)
       .pipe(
         tap((messages: any) => {
-          // tslint:disable-next-line: prefer-for-of
-          for (let i = 0; i < messages.length; i++) {
-            console.log({
-              read: messages[i].isRead
-            });
-            if (messages[i].isRead === false && messages[i].recipientId === this.curentUserId) {
-              this.messageService.markAsRead(this.curentUserId, messages[i].id);
+          messages.forEach((msg: any) => {
+            if (msg.isRead === false && msg.recipientId === +this.curentUserId) {
+              this.messageService.markAsRead(msg.id, this.curentUserId);
             }
-          }
+          });
         })
       )
       .subscribe(
@@ -56,6 +52,7 @@ export class MemberMessagesComponent implements OnInit {
         }
       );
   }
+  
 
   sortByDate(messages: any): void {
     messages.sort((a: any, b: any) => {
@@ -69,23 +66,32 @@ export class MemberMessagesComponent implements OnInit {
     this.newMessage.recipientId = this.recipientId;
     this.messageService
       .sendMessage(this.curentUserId, this.newMessage)
-      .subscribe((msg: Message) => {
-        this.messages.push(msg);
-        this.newMessage = '';
-      }, err => {
-        this.alertify.error(err);
-      });
+      .subscribe(
+        (msg: Message) => {
+          this.messages.push(msg);
+          this.newMessage = '';
+        },
+        (err) => {
+          this.alertify.error(err);
+        }
+      );
   }
 
   deleteMessage(id: number): void {
-    this.alertify.confirm('Are you sure you want to delete this message?', () => {
-      this.messageService.deleteMessage(id, this.curentUserId).subscribe(() => {
-        const messageIndex = this.messages.findIndex(m => m.id === id);
-        this.messages.splice(messageIndex, 1);
-        this.alertify.success('Message deleted');
-      }, err => {
-        this.alertify.error('Problem deleted message');
-      });
-    });
+    this.alertify.confirm(
+      'Are you sure you want to delete this message?',
+      () => {
+        this.messageService.deleteMessage(id, this.curentUserId).subscribe(
+          () => {
+            const messageIndex = this.messages.findIndex((m) => m.id === id);
+            this.messages.splice(messageIndex, 1);
+            this.alertify.success('Message deleted');
+          },
+          (err) => {
+            this.alertify.error('Problem deleted message');
+          }
+        );
+      }
+    );
   }
 }
